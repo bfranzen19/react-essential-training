@@ -1,0 +1,2 @@
+# react-essential-training
+- [LinkedIn Learning - React.js Essential Training](https://www.linkedin.com/learning/react-js-essential-training-14836121/building-modern-user-interfaces-with-react?autoplay=true&u=83102426)
