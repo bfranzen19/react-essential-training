@@ -1,0 +1,163 @@
+# [`LinkedIn Learning - React.js Essential Training`](https://www.linkedin.com/learning/react-js-essential-training-14836121/building-modern-user-interfaces-with-react?autoplay=true&u=83102426)
+
+## INTRO TO REACT ELEMENTS
+### ADDING REACT 
+####
+
+
+### CREATING REACT ELEMENTS
+####
+
+
+### REFACTORING ELEMENTS USING JSX
+####
+
+
+### INCORPORATING BABEL
+#### 
+
+
+### WORKING WITH JSX SYNTAX
+#### 
+
+
+
+---
+## REACT COMPONENTS
+### CREATING A REACT COMPONENT
+#### 
+
+
+### ADDING COMPONENT PROPERTIES
+#### 
+
+
+### WORKING WITH LISTS
+#### 
+
+
+### ADDING KEYS TO LIST ITEMS
+#### 
+
+
+### DISPLAYING IMAGES WITH REACT
+#### 
+
+
+### USING FRAGMENTS
+#### 
+
+
+
+---
+## REACT STATE IN THE COMPONENT TREE
+### GENERATING A PROJECT WITH `create-react-app`
+#### 
+
+
+### TOURING A `create-react-app` PROJECT
+#### 
+
+
+### DESTRUCTURING ARRAYS & OBJECTS
+#### 
+
+
+### UNDERSTANDING THE `useState` HOOK
+#### 
+
+
+### WORKING WITH `useEffect`
+#### 
+
+
+### UNDERSTANDING THE DEPENDENCY ARRAY
+#### 
+
+
+### INCORPORATING `useReducer`
+#### 
+
+
+
+---
+## HANDLING FORMS IN REACT
+### WORKING WITH UNCONTROLLED COMPONENTS
+#### 
+
+
+### CREATING CONTROLLED FORM ELEMENTS
+#### 
+
+
+### BUILDING A CUSTOM HOOK
+#### 
+
+
+### CHOOSING A FORM LIBRARY
+#### 
+
+
+
+---
+## ASYNCHRONOUS REACT
+### FETCHING DATA WITH HOOKS
+#### 
+
+
+### DISPLAYING DATA FROM AN API
+#### 
+
+
+### HANDLING LOADING STATES
+#### 
+
+
+### FETCHING DATA WITH `GraphQL`
+#### 
+
+
+### WORKING WITH RENDER PROPS
+#### 
+
+
+
+---
+## REACT ROUTER
+### INSTALLING REACT ROUTER V6
+#### 
+
+
+### CONFIGURING THE ROUTER
+#### 
+
+
+### INCORPORATING THE LINK COMPONENT
+#### 
+
+
+### NESTING LINKS WITH REACT ROUTER V6
+#### 
+
+
+
+---
+## REACT TESTING & DEPLOYMENT
+### USING `create-react-app` AS A TESTING PLATFORM
+#### 
+
+
+### TESTING SMALL FUNCTIONS WITH JEST
+#### 
+
+
+### INTRODUCING REACT TESTING LIBRARY
+#### 
+
+
+### TESTING EVENTS WITH REACT TESTING LIBRARY
+#### 
+
+
+### DEPLOYING TO NETLIFY
+#### 
