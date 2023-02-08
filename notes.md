@@ -3,7 +3,7 @@
 ## 2. INTRO TO REACT ELEMENTS
 ### ADDING REACT 
 #### using CDN
-- in `index.html`, in the `<head>` tag, add the `<script>` tags for the [cdn](https://reactjs.org/docs/cdn-links.html) to add the `react` and `react-dom` libraries.
+* in `index.html`, in the `<head>` tag, add the `<script>` tags for the [cdn](https://reactjs.org/docs/cdn-links.html) to add the `react` and `react-dom` libraries.
 
 ```html
 <body>
@@ -20,7 +20,7 @@
 
 ### CREATING REACT ELEMENTS
 #### creating elements
-- can also store in a variable and create it that way
+* can also store in a variable and create it that way
 
 ```html
 <body>
@@ -39,7 +39,7 @@
 
 ### REFACTORING ELEMENTS USING `JSX`
 #### nesting elements
-- changing heading to `<ul>` and adding `<li>` with `React.createElement` as the final argument
+* changing heading to `<ul>` and adding `<li>` with `React.createElement` as the final argument
 
 ```html
 <body>
@@ -61,8 +61,8 @@
 </body>
 ```
 
-- this gets cumbersome >>>  _`jsx has entered the chat`_
-- `jsx` stands for `javascript as xml` and is an `html`-like syntax
+* this gets cumbersome >>>  _`jsx has entered the chat`_
+* `jsx` stands for `javascript as xml` and is an `html`-like syntax
 
 ```html
 <body>
@@ -83,9 +83,9 @@
 
 ### INCORPORATING `BABEL`
 #### getting rid of the `unexpected token '<'` error with `jsx` using `babel`
-- this error happens because tag-based syntax is not supported in the browser so we have to compile it
-- `babel` takes code that isn't supported by the browser and compiles it into code that is supported by the browser to give us readability and shorter syntax.
-- `babel` can also be imported via cdn and the script type needs to change from `text/javascript` to `text/babel`.
+* this error happens because tag-based syntax is not supported in the browser so we have to compile it
+* `babel` takes code that isn't supported by the browser and compiles it into code that is supported by the browser to give us readability and shorter syntax.
+* `babel` can also be imported via cdn and the script type needs to change from `text/javascript` to `text/babel`.
 
 ```html
 <head>
@@ -106,7 +106,7 @@
 
 ### WORKING WITH `JSX` SYNTAX
 #### power of `jsx`
-- can use it to inject dynamic content into tags by referencing them by variable name
+* can use it to inject dynamic content into tags by referencing them by variable name
 
 ```html
 <script type="text/babel"> 
@@ -132,10 +132,10 @@
 ## 3. REACT COMPONENTS
 ### CREATING A REACT COMPONENT
 #### components 
-- a small building block of the user interface
-- when creating a component, use a capital first letter, and create it as a function
-- react wants to only render a single component so it must either be wrapped in an element (like a `<div>`) or a different function that's responsible for rendering all of the components.
-- a component is just a function that returns some `jsx`
+* a small building block of the user interface
+* when creating a component, use a capital first letter, and create it as a function
+* react wants to only render a single component so it must either be wrapped in an element (like a `<div>`) or a different function that's responsible for rendering all of the components.
+* a component is just a function that returns some `jsx`
 
 ```html
 <script type="text/babel">
@@ -186,10 +186,10 @@
 
 ### ADDING COMPONENT PROPERTIES
 #### using `props`
-- pass `props` into any component (function)
-    - `props` is an object
-- to add values to `props`, need to add them wherever the component is being rendered as `property="value"`
-- access the `props` using a `jsx` expression (`{}`) with `{ props.propertyName }`
+* pass `props` into any component (function)
+    * `props` is an object
+* to add values to `props`, need to add them wherever the component is being rendered as `property="value"`
+* access the `props` using a `jsx` expression (`{}`) with `{ props.propertyName }`
 
 ```html
 <script type="text/babel">
@@ -237,8 +237,8 @@
 
 ### WORKING WITH LISTS
 #### passing an array with `props`
-- to display array elements in a component, use `map()`
-- without a `key` prop, there will be an error
+* to display array elements in a component, use `map()`
+* without a `key` prop, there will be an error
 
 ```html
 <script type="text/babel">
@@ -295,18 +295,18 @@
 
 ### ADDING KEYS TO LIST ITEMS
 #### fixing the `key` prop error
-- `key`s help keep data in sync as the `state` of the app changes over time
-- error: `each child in a list should have a unique "key" prop`
-    - this error occurs because it's possible that things might get out of sync when rendering occurs, particularly when something is added to the front or middle of the list
-    - the `key` acts as an `id` that keeps everything in sync
-- *fixes*: 
-    - add an index to the `<li>` (not recommended because there can still be problems with rendering)
+* `key`s help keep data in sync as the `state` of the app changes over time
+* error: `each child in a list should have a unique "key" prop`
+    * this error occurs because it's possible that things might get out of sync when rendering occurs, particularly when something is added to the front or middle of the list
+    * the `key` acts as an `id` that keeps everything in sync
+* *fixes*: 
+    * add an index to the `<li>` (not recommended because there can still be problems with rendering)
     
-    - data transformation
-        - create an array of objects
-        - for each item in the `things` array, create an `object` because each can have an `id` property
-            - whenever we return an `object` from an `arrow function`, we need to point that `arrow function` at `()` instead of just pointing it directly at `{}`
-        - this is different from using an index because the data is stable - meaning the `id` property is set when it's mapped in the function before rendering instead of it being created while the list items are rendering
+    * data transformation
+        * create an array of objects
+        * for each item in the `things` array, create an `object` because each can have an `id` property
+            * whenever we return an `object` from an `arrow function`, we need to point that `arrow function` at `()` instead of just pointing it directly at `{}`
+        * this is different from using an index because the data is stable * meaning the `id` property is set when it's mapped in the function before rendering instead of it being created while the list items are rendering
 ```jsx
 // adding index to <li>
 const things = ["thing 1", "thing 2", "thing 3"];
@@ -343,9 +343,9 @@ const thingObjects = things.map((thing, i) => (
 
 ### DISPLAYING IMAGES WITH REACT
 #### getting an image using the address
-- right click, select `copy image address`
-- this will go in the `src` of the `<img>` tag
-- add `height` and `alt`
+* right click, select `copy image address`
+* this will go in the `src` of the `<img>` tag
+* add `height` and `alt`
 
 ```jsx
 <img 
@@ -356,7 +356,7 @@ const thingObjects = things.map((thing, i) => (
 ```
 
 #### getting an image that has been saved
-- replace the image address with the path to the location where the file has been saved within the project
+* replace the image address with the path to the location where the file has been saved within the project
 
 ```jsx
 <img 
@@ -381,7 +381,7 @@ function App() {
 ```
 
 ```html
-<!-- output in dev tools -->
+<!-* output in dev tools -->
 <div id="root">
     <div>
         <header>...</header>
@@ -405,7 +405,7 @@ function App() {
 ```
 
 ```html
-<!-- output in dev tools -->
+<!-* output in dev tools -->
 <div id="root">
     <header>...</header>
     <section>...</section>
@@ -417,32 +417,254 @@ function App() {
 ---
 ## 4. REACT STATE IN THE COMPONENT TREE
 ### GENERATING A PROJECT WITH `create-react-app`
-#### 
-
+#### using `create-react-app`
+* `create-react-app` is a way to generate a new react project from scratch
+* using `create-react-app`
+    * navigate to the correct folder using `cd project-folder`
+    * make sure node.js is installed using `node -v`
+    * make sure npm is installed using `npm -v`
+    * create the react app using `npx create-react-app [project name]`
+        * this will install everything needed (react, react-dom, react-scripts) and create the standard folder structure
+            * react-scripts: all of the babel, all of the compiling, everything set up from scratch
+    * `cd` into the new app folder that was just created
+    * run `npm start` to start the server
+        * will run on `localhost:3000` by default
+```bash
+cd project-folder   # move into project folder where i want react-app created
+node -v     # v16.19.0
+npm -v      # 8.19.3
+npx create-react-app react-app # generate everything needed for the react project
+cd react-app # move into the new app
+npm start   # start the dev server
+```
 
 ### TOURING A `create-react-app` PROJECT
-#### 
+#### `project.json`
+* see all dependencies
+    * react-related dependencies:
+        * react: everything needed to create components
+        * react-dom: how components are added to the page
+        * react-scripts: handles all of the bundling
 
+* all scripts that npm can run
+
+#### `src/`
+* main files of the app
+    * `index.js`: 
+        * the entry point of the app. renders the app to the DOM, which references `<div id="root">`
+        * `<App/>` is wrapped in `<React.StrictMode></React.StrictMode>`
+            * `<React.StrictMode>`: 
+                * is a tool for highlighting any potential problems in the app
+                * it's a package that's going to activate some additional checks to see if code is written correctly
+                * these checks will only run in development
+        * `<App/>` component refers to `src/App.js`
+    * `public/index.html`: 
+        * where the `<div id="root">` lives, which is where all react code will be injected
+    * `src/App.js`: 
+        * components will be kept inside of their own files 
+        * `App()` is a function
+        * `App` is exported as the default export
+    * `src/App.css`: holds all of the styles
 
 ### DESTRUCTURING ARRAYS & OBJECTS
-#### 
+#### using destructuring
+* [object destructuring cheat sheet](https://dmitripavlutin.com/javascript-object-destructuring/)
+* object destructuring: 
+    * allows us to get values by object keys directly from the object
+    * `const { property } = object;`
+```javascript
+const person = {
+    firstName: 'riot',
+    lastName: 'bacon'
+}
+
+const { firstName, lastName } = person;
+console.log(firstName, lastName); // riot bacon
+```
+
+* array destructuring:
+    * variable name is assigned based on the position of the element in the array
+    * `const [ itemPosition ] = array;`
+```javascript
+const cities = ["boulder", "tahoe", "seattle"];
+console.log(cities[0]); // boulder
+
+const [first, second, third] = ["boulder", "tahoe", "seattle"];
+console.log(
+    first,  // boulder
+    second, // tahoe
+    third   // seattle
+);
+```
+
+```jsx
+// original
+function App(props) {
+    return (
+        <div className="App">
+            <h1>hello from {props.library}</h1>
+        </div>
+    );
+}
+
+// using destructing
+function App({ library }) {
+    return (
+        <div className="App">
+            <h1>hello from {library}</h1>
+        </div>
+    );
+}
+```
 
 
 ### UNDERSTANDING THE `useState` HOOK
-#### 
+#### managing state
+* a `state` can be a string, boolean, object, array
+* when we pass in its inital value, this is the value when the app is rendered to the page for the first time. anytime the `set function` is called, it's called with a new state and that will change the state for the entire app
+* must import `useState` from `react`
+    * returns an array with 2 values
+        * 1st value is the current `state` value
+        * 2nd value is a function that will be used to update the `state`
+* set the initial state by passing a value to `useState`
+```javascript
+const what = useState("happy");
+console.log(what); // ['happy', f]
+```
 
+* assigning a name to the value
+```javascript
+import { useState } from "react";
+
+function App() {
+    const [ emotion, setEmotion ] = useState("happy");
+    
+    return (
+        <div className="App">
+            <h1>current emotion: {emotion}</h1>
+        </div>
+    );
+}
+```
+
+* change the state with the `setEmotion` function
+    * use an event of some sort (`button` with an `onClick` listener) to invoke the `setEmotion` function with the new `emotion` of `sad`
+```javascript
+import { useState } from "react";
+
+function App() {
+    const [ emotion, setEmotion ] = useState("happy");
+    
+    return (
+        <div className="App">
+            <h1>current emotion: {emotion}</h1>
+            <button onClick={() => setEmotion('sad')}>sad</button>
+        </div>
+    );
+}
+```
 
 ### WORKING WITH `useEffect`
-#### 
+#### `useEffect` hook (build into `react`)
+* typically used to manage side effects that aren't related to a components render (console messages, loading data, working with animations)
+* takes in 2 arguments:
+    * 1st - function called whenever we want the effect to happen
+    * 2nd - when the effect is actually called (called the dependency array)
+        * pass in `[]` if the effect should not be called again after the first render
+        * pass in `state` value in an array to listen for any changes
+```javascript
+import { useState, useEffect } from "react";
+
+function App() {
+    const [ emotion, setEmotion ] = useState("happy");
+
+    useEffect(() => { 
+         console.log(`it's ${emotion} right now.`); 
+    }, 
+    // []); // only logs once on inital render
+    [emotion]); // listens for any change to emotion
+    
+    return (
+        <div className="App">
+            <h1>current emotion: {emotion}</h1>
+            <button onClick={() => setEmotion('sad')}>sad</button>
+        </div>
+    );
+}
+```
 
 
 ### UNDERSTANDING THE DEPENDENCY ARRAY
-#### 
+#### can use `useEffect` and `useState` to keep track of different variables
+- can pass more than one `state` variable into the dependency array
+```javascript
+import { useState, useEffect } from "react";
 
+function App() {
+    const [ emotion, setEmotion ] = useState("happy");
+    const [ secondary, setSecondary ] = useState("tired");
+
+    useEffect(() => { 
+         console.log(`it's ${emotion} right now.`); 
+    }, 
+    // [emotion]); // original
+    [emotion, secondary]);
+
+    // useEffect(() => { 
+    //      console.log(`it's ${secondary} right now.`); 
+    // }, [secondary]);
+
+    return (
+        <div className="App">
+            <h1>current emotion: {emotion}</h1>
+            <button onClick={() => setEmotion('sad')}>sad</button>
+            <h2>current secondary emotion: {secondary}</h2>
+            <button onClick={() => setSecondary('grateful')}>grateful</button>
+        </div>
+    );
+}
+```
 
 ### INCORPORATING `useReducer`
-#### 
+#### creating a checkbox that will manage `state` with `useState`
+```javascript
+// using useState
+import { useState } from "react";
 
+function App() {
+    const [ checked, setChecked ] = useState(false);
+
+    return (
+        <div className="App">
+            <input type="checkbox" 
+                value={checked} 
+                onChange={() => setChecked((checked) => !checked)}
+            />
+            <label>{checked ? "checked" ? "not checked"}</label>
+        </div>
+    );
+}
+```
+
+#### creating a checkbox that will manage `state` with `useReducer`
+* `useReducer` takes in 2 arguments: 
+    * 1st - function that will be used to update the `state`
+    * 2nd - inital `state`
+```javascript
+// using useReducer
+import { useReducer } from "react";
+
+function App() {
+    const [ checked, setChecked ] = useReducer((checked) => !checked, false);
+
+    return (
+        <div className="App">
+            <input type="checkbox" value={checked} onChange={setChecked} />
+            <label>{checked ? "checked" ? "not checked"}</label>
+        </div>
+    );
+}
+```
 
 
 ---
