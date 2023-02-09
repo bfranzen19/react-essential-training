@@ -445,26 +445,26 @@ npm start   # start the dev server
         * react: everything needed to create components
         * react-dom: how components are added to the page
         * react-scripts: handles all of the bundling
-
 * all scripts that npm can run
 
 #### `src/`
-* main files of the app
-    * `index.js`: 
-        * the entry point of the app. renders the app to the DOM, which references `<div id="root">`
-        * `<App/>` is wrapped in `<React.StrictMode></React.StrictMode>`
-            * `<React.StrictMode>`: 
-                * is a tool for highlighting any potential problems in the app
-                * it's a package that's going to activate some additional checks to see if code is written correctly
-                * these checks will only run in development
-        * `<App/>` component refers to `src/App.js`
-    * `public/index.html`: 
-        * where the `<div id="root">` lives, which is where all react code will be injected
-    * `src/App.js`: 
-        * components will be kept inside of their own files 
-        * `App()` is a function
-        * `App` is exported as the default export
-    * `src/App.css`: holds all of the styles
+* main files of the app:
+* `index.js`: 
+    * the entry point of the app. renders the app to the DOM, which references `<div id="root">`
+    * `<App/>` is wrapped in `<React.StrictMode></React.StrictMode>`
+        * `<React.StrictMode>`: 
+            * is a tool for highlighting any potential problems in the app
+            * it's a package that's going to activate some additional checks to see if code is written correctly
+            * these checks will only run in development
+    * `<App/>` component refers to `src/App.js`
+* `public/index.html`: 
+    * where the `<div id="root">` lives, which is where all react code will be injected
+* `src/App.js`: 
+    * components will be kept inside of their own files 
+    * `App()` is a function
+    * `App` is exported as the default export
+* `src/App.css`: holds all of the styles
+
 
 ### DESTRUCTURING ARRAYS & OBJECTS
 #### using destructuring
@@ -670,19 +670,146 @@ function App() {
 ---
 ## 5. HANDLING FORMS IN REACT
 ### WORKING WITH UNCONTROLLED COMPONENTS
-#### 
+#### `useRef`
+* hook that allows us to reach out to an individual element and check what its value is.
+* returns an object with a property `current`, which is whatever the value is of that field (like `input` for an `<input/>`)
+* `current` will have a `value` assigned to it as well that can be referenced by `useRefVariable.current.value`
+* `useRef` is a hook that will reach out to a UI element and get its value
+* the following example is an `uncontrolled component`
+    * we're saying create this little container, give us whatever that value is
+    * manage the form elements outside of state
+* unlike `useState` where the component will re-render if there's some sort of a change, `useRef` will not re-render. always have to reach out to the `current.value` to see what the value actually is by reaching out to the input itself.
+```jsx
+import {useRef} from "react";
 
+function App() {
+    const txtTitle = useRef();
+    const hexColor = useRef();
+
+    const submit = (e) => {
+        e.preventDefault(); // preventing the refresh default behavior
+
+        const title = txtTitle.current.value; // setting the useRef values to variables
+        const color = hexColor.current.value;
+
+        alert(`${title}, ${color}`); // alert showing the values
+
+        txtTitle.current.value = ""; // clearing out the values
+        hexColor.current.value = "";
+    };
+
+    return (
+        <form onSubmit={submit}>
+            <input ref={txtTitle} type='text' placeholder='color title' />
+            <input ref={hexColor} type='color' />
+            <button>ADD</button>
+        </form>
+    );
+}
+```
 
 ### CREATING CONTROLLED FORM ELEMENTS
-#### 
+#### a form containing a `state` is a `controlled component`
+- controlling the form by creating `state` values for the form elements
+- the `<input/>` has a `value` added to it set to each `state` value
+    - title input has `value={title}`
+    - color input has `value={color}`
+- `onChange` listener is added to each `<input/>`
+    - takes in the `event`, calls the `state` setter for that `<input/>`, and sets the state to the `event.target.value`
+        - `event.target.value` allows us to capture whatever is put into that `<input/>` field
+- when the form is submitted with `onSubmit`, the `submit` function is called
+    - default refresh is prevented
+    - alert shows the value of the `title` and `color` `state` variables
+    - the `state`s are reset to their original values
+        - `setTitle("");`
+        - `setColor("000000");`
+```jsx
+import {useState} from "react";
 
+function App() {
+    const [title, setTitle] = useState(""); // state variables and setters and setting the inital value
+    const [color, setColor] = useState("#000000");
+
+    const submit = (e) => {
+        e.preventDefault(); // prevent default refresh
+
+        alert(`${title}, ${color}`); // alert showing the values
+
+        setTitle("");        // resetting to the original states
+        setColor("000000");
+    };
+
+    return (
+        <form onSubmit={submit}>
+            <input
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                type='text'
+                placeholder='color title'
+            />
+            <input
+                onChange={(event) => setColor(event.target.value)}
+                value={color}
+                type='color'
+            />
+            <button>ADD</button>
+        </form>
+    );
+}
+```
 
 ### BUILDING A CUSTOM HOOK
-#### 
+#### custom hooks
+* function that is going to always start with the keyword `use`
+* take in some sort of inital value
+* use a `useState` hooks
+    * `const [value, setValue] = useState(initalValue);`
+* can `return` anything
+    * this one will return an array of objects with `value`, and an `onChange` function that calls `setValue` and a function to reset the state to the original value
+* a hook is a function that we can use for repeatable code. very reusable, can be shared across the project, write tests, etc.
+```jsx
+import {useState} from "react";
 
+function useInput(initialValue) {
+    const [value, setValue] = useState(initialValue);
 
-### CHOOSING A FORM LIBRARY
-#### 
+    return [
+        {
+            value,
+            onChange: (e) => setValue(e.target.value),
+        },
+        () => setValue(initialValue),
+    ];
+}
+
+function App() {
+    const [titleProps, resetTitle] = useInput("");
+    const [colorProps, resetColor] = useInput("#000000");
+
+    const submit = (e) => {
+        e.preventDefault();
+
+        alert(`${titleProps.value}, ${colorProps.value}`); // alert showing the values
+
+        resetTitle();
+        resetColor();
+    };
+
+    return (
+        <form onSubmit={submit}>
+            <input {...titleProps} type='text' placeholder='color title' />
+            <input {...colorProps} type='color' />
+            <button>ADD</button>
+        </form>
+    );
+}
+```
+
+### CHOOSING A FORM LIBRARY 
+#### there are many form libraries
+* [formik](https://formik.org/)
+* [react-hook-form](https://react-hook-form.com/)
+* not form related but also relevant -- [usehooks.com](https://usehooks.com/)
 
 
 
