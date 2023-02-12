@@ -1,12 +1,28 @@
 import "./App.css";
 import {useState, useEffect} from "react";
 
-function GithubUser({name, location, avatar}) {
+const query = `
+    query {
+            allLifts {
+                name
+                elevationGain
+                status
+            }
+        }
+    `;
+
+const opts = {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({query}),
+};
+
+function Lift({name, elevationGain, status}) {
     return (
         <div>
             <h1>{name}</h1>
-            <p>{location}</p>
-            <img src={avatar} height={150} alt={name} />
+            <p>{elevationGain}</p>
+            <p>{status}</p>
         </div>
     );
 }
@@ -17,25 +33,33 @@ function App() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        setLoading(true); // sets the loading state from false to true
+        setLoading(true);
 
-        fetch(`https://api.github.com/users/bfranzen19`)
+        fetch(`https://snowtooth.moonhighway.com`, opts)
             .then((response) => response.json())
             .then(setData)
-            .then(() => setLoading(false)) // set loading back to false because we have the data
-            .catch(setError); // error handling - if there's an error, set it
+            .then(() => setLoading(false))
+            .catch(setError);
     }, []);
 
-    if (loading) return <h1>loading...</h1>; // use loading state
-    if (error) return <pre>{JSON.stringify(error)}</pre>; // use error state
+    if (loading) return <h1>loading...</h1>;
+    if (error) return <pre>{JSON.stringify(error)}</pre>;
     if (!data) return null;
 
     return (
-        <GithubUser
-            name={data.name}
-            location={data.location}
-            avatar={data.avatar_url}
-        />
+        <div>
+            {data.data.allLifts.map(
+                (
+                    lift // nested in another data property
+                ) => (
+                    <Lift
+                        name={lift.name}
+                        elevationGain={lift.elevationGain}
+                        status={lift.status}
+                    />
+                )
+            )}
+        </div>
     );
 };
 
