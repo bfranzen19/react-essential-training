@@ -816,7 +816,34 @@ function App() {
 ---
 ## 6. ASYNCHRONOUS REACT
 ### FETCHING DATA WITH HOOKS
-#### 
+#### getting data from an api
+* example: [github api](https://api.github.com/users/bfranzen19)
+* github REST API that we can make calls to
+* use `useState` to handle the data and `useEffect` to make the api call
+* `fetch()` built into the browser, supported, a way to make an `HTTP` request to get data from a source
+* `.json()` turns the response into `JSON`
+* make sure to pass in `[]` with `useEffect()` so that it only makes the call once when it's rendered
+* `<pre>` is a preformatting tag to format some `JSON`
+    * [pre tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre)
+    * text has already been formatted so it will be written exactly that way, including whitespace.
+* `JSON.stringify(data, null, 2)`- `data` is the data returned, `null` and `2` help formatting
+
+```jsx
+import {useState, useEffect} from "react";
+
+function App() {
+    const [data, setData] = useState(null); // container for the data and the function to update the data, inital state is null
+    useEffect(() => {
+        fetch(`https://api.github.com/users/bfranzen19`) // 
+            .then((response) => response.json()) // 
+            .then(setData); // call this shorthand way instead of `(data) => setData(data)`
+    }, []); // [] ensures this happens once when the app renders the 1st time
+
+    if (data) return <pre>{JSON.stringify(data, null, 2)}</pre>; // if there's data, display it
+
+    return <h1>data</h1>;
+}
+```
 
 
 ### DISPLAYING DATA FROM AN API
