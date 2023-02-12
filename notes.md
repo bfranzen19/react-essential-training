@@ -937,8 +937,90 @@ function App() {
 ```
 
 ### FETCHING DATA WITH `GraphQL`
-#### 
+#### `GraphQL` 
+* a way of creating an api wher eyou can specify what data you want by using its field
+    * query example:
+        ```
+        query {
+            allLifts {
+                name
+                elevationGain
+                status
+            }
+        }
+        ```
+* request example [snowtooth.moonhighway.com](https://snowtooth.moonhighway.com)
+#### iterating over data and displaying the component for each returned element
+* in a `<div>`, use `map()` on the `data` collection and return the displaying component (`Lift`) for each element
+* need to also pass the query and options to the `fetch()` 
+    * `fetch()` takes in the url and the options
+* be sure to log the data returned to make sure it's not nested in another object or something
 
+```jsx
+import {useState, useEffect} from "react";
+
+const query = `
+    query {
+            allLifts {
+                name
+                elevationGain
+                status
+            }
+        }
+    `;
+
+const opts = {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({query}),
+};
+
+function Lift({name, elevationGain, status}) {
+    return (
+        <div>
+            <h1>{name}</h1>
+            <p>{elevationGain}</p>
+            <p>{status}</p>
+        </div>
+    );
+}
+
+function App() {
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+
+        fetch(`https://snowtooth.moonhighway.com`, opts)
+            .then((response) => response.json())
+            .then(setData)
+            .then(() => setLoading(false))
+            .catch(setError);
+    }, []);
+
+    if (loading) return <h1>loading...</h1>;
+    if (error) return <pre>{JSON.stringify(error)}</pre>;
+    if (!data) return null;
+
+    return (
+        <div>
+            {data.data.allLifts.map(
+                (
+                    lift // nested in another data property
+                ) => (
+                    <Lift
+                        name={lift.name}
+                        elevationGain={lift.elevationGain}
+                        status={lift.status}
+                    />
+                )
+            )}
+        </div>
+    );
+};
+```
 
 ### WORKING WITH RENDER PROPS
 #### 
