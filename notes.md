@@ -816,24 +816,254 @@ function App() {
 ---
 ## 6. ASYNCHRONOUS REACT
 ### FETCHING DATA WITH HOOKS
-#### 
+#### getting data from an api
+* example: [github api](https://api.github.com/users/bfranzen19)
+* github REST API that we can make calls to
+* use `useState` to handle the data and `useEffect` to make the api call
+* `fetch()` built into the browser, supported, a way to make an `HTTP` request to get data from a source
+* `.json()` turns the response into `JSON`
+* make sure to pass in `[]` with `useEffect()` so that it only makes the call once when it's rendered
+* `<pre>` is a preformatting tag to format some `JSON`
+    * [pre tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre)
+    * text has already been formatted so it will be written exactly that way, including whitespace.
+* `JSON.stringify(data, null, 2)`- `data` is the data returned, `null` and `2` help formatting
+
+```jsx
+import {useState, useEffect} from "react";
+
+function App() {
+    const [data, setData] = useState(null); // container for the data and the function to update the data, inital state is null
+    useEffect(() => {
+        fetch(`https://api.github.com/users/bfranzen19`) // 
+            .then((response) => response.json()) // 
+            .then(setData); // call this shorthand way instead of `(data) => setData(data)`
+    }, []); // [] ensures this happens once when the app renders the 1st time
+
+    if (data) return <pre>{JSON.stringify(data, null, 2)}</pre>; // if there's data, display it
+
+    return <h1>data</h1>;
+}
+```
 
 
 ### DISPLAYING DATA FROM AN API
-#### 
+#### displaying data in seperate component
+* `GithubUser()` function will display the data that is fetched
+* regardless of what data is being displayed, anytime you are making a `fetch` for some data from an api, the first step is always fetching the data (here, using `useState` and `useEffect` combo), then passing data to child components (like `GithubUser()`) and then we display by pulling from that 
 
+```jsx
+import {useState, useEffect} from "react";
+
+function GithubUser({name, location, avatar}) { // display name, location, and avatar properties from data
+    return (
+        <div>
+            <h1>{name}</h1> 
+            <p>{location}</p>
+            <img src={avatar} height={150} alt={name} />
+        </div>
+    );
+}
+
+function App() {
+    const [data, setData] = useState(null);
+    useEffect(() => {
+        fetch(`https://api.github.com/users/bfranzen19`)
+            .then((response) => response.json())
+            .then(setData);
+    }, []);
+
+    if (data)
+        return (
+            <GithubUser
+                name={data.name}
+                location={data.location}
+                avatar={data.avatar_url}
+            />
+        );
+
+    return <h1>data</h1>;
+};
+```
 
 ### HANDLING LOADING STATES
-#### 
+#### data in different states
+* data coming from an api can be in a few different states
+    * `loading state` - currently fetching the data, just hasn't resolved yet
+    * `success state` - data has come back and can be displayed
+    * `error state` - something went wrong
+* can represent all of this with `useState` hooks
+* should always handle for loading, success, and error states for async requests
 
+```jsx
+import {useState, useEffect} from "react";
+
+function GithubUser({name, location, avatar}) {
+    return (
+        <div>
+            <h1>{name}</h1>
+            <p>{location}</p>
+            <img src={avatar} height={150} alt={name} />
+        </div>
+    );
+}
+
+function App() {
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true); // sets the loading state from false to true
+
+        fetch(`https://api.github.com/users/bfranzen19`)
+            .then((response) => response.json())
+            .then(setData)
+            .then(() => setLoading(false)) // set loading back to false because we have the data
+            .catch(setError); // error handling - if there's an error, set it
+    }, []);
+
+    if (loading) return <h1>loading...</h1>; // use loading state
+    if (error) return <pre>{JSON.stringify(error)}</pre>; // use error state
+    if (!data) return null; // no data, return null
+
+    return (
+        <GithubUser
+            name={data.name}
+            location={data.location}
+            avatar={data.avatar_url}
+        />
+    );
+};
+```
 
 ### FETCHING DATA WITH `GraphQL`
-#### 
+#### `GraphQL` 
+* a way of creating an api wher eyou can specify what data you want by using its field
+    * query example:
+        ```
+        query {
+            allLifts {
+                name
+                elevationGain
+                status
+            }
+        }
+        ```
+* request example [snowtooth.moonhighway.com](https://snowtooth.moonhighway.com)
+#### iterating over data and displaying the component for each returned element
+* in a `<div>`, use `map()` on the `data` collection and return the displaying component (`Lift`) for each element
+* need to also pass the query and options to the `fetch()` 
+    * `fetch()` takes in the url and the options
+* be sure to log the data returned to make sure it's not nested in another object or something
 
+```jsx
+import {useState, useEffect} from "react";
+
+const query = `
+    query {
+            allLifts {
+                name
+                elevationGain
+                status
+            }
+        }
+    `;
+
+const opts = {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({query}),
+};
+
+function Lift({name, elevationGain, status}) {
+    return (
+        <div>
+            <h1>{name}</h1>
+            <p>{elevationGain}</p>
+            <p>{status}</p>
+        </div>
+    );
+}
+
+function App() {
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+
+        fetch(`https://snowtooth.moonhighway.com`, opts)
+            .then((response) => response.json())
+            .then(setData)
+            .then(() => setLoading(false))
+            .catch(setError);
+    }, []);
+
+    if (loading) return <h1>loading...</h1>;
+    if (error) return <pre>{JSON.stringify(error)}</pre>;
+    if (!data) return null;
+
+    return (
+        <div>
+            {data.data.allLifts.map(
+                (
+                    lift // nested in another data property
+                ) => (
+                    <Lift
+                        name={lift.name}
+                        elevationGain={lift.elevationGain}
+                        status={lift.status}
+                    />
+                )
+            )}
+        </div>
+    );
+};
+```
 
 ### WORKING WITH RENDER PROPS
-#### 
+#### how to use functions to display the right data at the right time
+* `renderItem` - render an individual list item (function)
+* `renderEmpty` -  what is displayed if there's nothing in the list (can be an html element)
+* `React.Fragment` shorthand === `<></>`
+* `App()` must be slightly refactored to make sure it's pumping the data in correctly
 
+```jsx
+
+const tahoe_peaks = [
+    {name: "freel", elevation: 10891},
+    {name: "monument", elevation: 10067},
+    {name: "pyramid", elevation: 9983},
+    {name: "tallac", elevation: 90735},
+];
+
+function List({data, renderItem, renderEmpty}) {
+    return !data.length ? (
+        renderEmpty
+    ) : (
+        <ul>
+            {data.map((item) => (
+                <li key={item.name}>{renderItem(item)}</li>
+            ))}
+        </ul>
+    );
+}
+
+function App() {
+    return (
+        <List
+            data={tahoe_peaks}
+            renderEmpty={<p>this list is empty</p>}
+            renderItem={(item) => (
+                <>
+                    {item.name} - {item.elevation} feet
+                </>
+            )}
+        />
+    );
+}
+```
 
 
 ---

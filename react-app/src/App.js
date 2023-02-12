@@ -1,37 +1,35 @@
 import "./App.css";
-import {useState} from "react";
 
-function useInput(initialValue) {
-    const [value, setValue] = useState(initialValue);
+const tahoe_peaks = [
+    {name: "freel", elevation: 10891},
+    {name: "monument", elevation: 10067},
+    {name: "pyramid", elevation: 9983},
+    {name: "tallac", elevation: 90735},
+];
 
-    return [
-        {
-            value,
-            onChange: (e) => setValue(e.target.value),
-        },
-        () => setValue(initialValue),
-    ];
+function List({data, renderItem, renderEmpty}) {
+    return !data.length ? (
+        renderEmpty
+    ) : (
+        <ul>
+            {data.map((item) => (
+                <li key={item.name}>{renderItem(item)}</li>
+            ))}
+        </ul>
+    );
 }
 
 function App() {
-    const [titleProps, resetTitle] = useInput("");
-    const [colorProps, resetColor] = useInput("#000000");
-
-    const submit = (e) => {
-        e.preventDefault();
-
-        alert(`${titleProps.value}, ${colorProps.value}`); // alert showing the values
-
-        resetTitle();
-        resetColor();
-    };
-
     return (
-        <form onSubmit={submit}>
-            <input {...titleProps} type='text' placeholder='color title' />
-            <input {...colorProps} type='color' />
-            <button>ADD</button>
-        </form>
+        <List
+            data={tahoe_peaks}
+            renderEmpty={<p>this list is empty</p>}
+            renderItem={(item) => (
+                <>
+                    {item.name} - {item.elevation} feet
+                </>
+            )}
+        />
     );
 }
 
