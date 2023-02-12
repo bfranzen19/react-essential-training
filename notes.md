@@ -854,10 +854,10 @@ function App() {
 ```jsx
 import {useState, useEffect} from "react";
 
-function GithubUser({name, location, avatar}) {
+function GithubUser({name, location, avatar}) { // display name, location, and avatar properties from data
     return (
         <div>
-            <h1>{name}</h1>
+            <h1>{name}</h1> 
             <p>{location}</p>
             <img src={avatar} height={150} alt={name} />
         </div>
@@ -870,7 +870,7 @@ function App() {
         fetch(`https://api.github.com/users/bfranzen19`)
             .then((response) => response.json())
             .then(setData);
-    }, []); // [] ensures this happens once when the app renders the 1st time
+    }, []);
 
     if (data)
         return (
@@ -879,15 +879,62 @@ function App() {
                 location={data.location}
                 avatar={data.avatar_url}
             />
-        ); // <pre>{JSON.stringify(data, null, 2)}</pre>;
+        );
 
     return <h1>data</h1>;
 };
 ```
 
 ### HANDLING LOADING STATES
-#### 
+#### data in different states
+* data coming from an api can be in a few different states
+    * `loading state` - currently fetching the data, just hasn't resolved yet
+    * `success state` - data has come back and can be displayed
+    * `error state` - something went wrong
+* can represent all of this with `useState` hooks
+* should always handle for loading, success, and error states for async requests
 
+```jsx
+import {useState, useEffect} from "react";
+
+function GithubUser({name, location, avatar}) {
+    return (
+        <div>
+            <h1>{name}</h1>
+            <p>{location}</p>
+            <img src={avatar} height={150} alt={name} />
+        </div>
+    );
+}
+
+function App() {
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true); // sets the loading state from false to true
+
+        fetch(`https://api.github.com/users/bfranzen19`)
+            .then((response) => response.json())
+            .then(setData)
+            .then(() => setLoading(false)) // set loading back to false because we have the data
+            .catch(setError); // error handling - if there's an error, set it
+    }, []);
+
+    if (loading) return <h1>loading...</h1>; // use loading state
+    if (error) return <pre>{JSON.stringify(error)}</pre>; // use error state
+    if (!data) return null; // no data, return null
+
+    return (
+        <GithubUser
+            name={data.name}
+            location={data.location}
+            avatar={data.avatar_url}
+        />
+    );
+};
+```
 
 ### FETCHING DATA WITH `GraphQL`
 #### 

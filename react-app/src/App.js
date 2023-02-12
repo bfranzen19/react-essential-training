@@ -13,22 +13,30 @@ function GithubUser({name, location, avatar}) {
 
 function App() {
     const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
+        setLoading(true); // sets the loading state from false to true
+
         fetch(`https://api.github.com/users/bfranzen19`)
             .then((response) => response.json())
-            .then(setData);
-    }, []); // [] ensures this happens once when the app renders the 1st time
+            .then(setData)
+            .then(() => setLoading(false)) // set loading back to false because we have the data
+            .catch(setError); // error handling - if there's an error, set it
+    }, []);
 
-    if (data)
-        return (
-            <GithubUser
-                name={data.name}
-                location={data.location}
-                avatar={data.avatar_url}
-            />
-        ); // <pre>{JSON.stringify(data, null, 2)}</pre>;
+    if (loading) return <h1>loading...</h1>; // use loading state
+    if (error) return <pre>{JSON.stringify(error)}</pre>; // use error state
+    if (!data) return null;
 
-    return <h1>data</h1>;
+    return (
+        <GithubUser
+            name={data.name}
+            location={data.location}
+            avatar={data.avatar_url}
+        />
+    );
 };
 
 export default App;
