@@ -1023,8 +1023,47 @@ function App() {
 ```
 
 ### WORKING WITH RENDER PROPS
-#### 
+#### how to use functions to display the right data at the right time
+* `renderItem` - render an individual list item (function)
+* `renderEmpty` -  what is displayed if there's nothing in the list (can be an html element)
+* `React.Fragment` shorthand === `<></>`
+* `App()` must be slightly refactored to make sure it's pumping the data in correctly
 
+```jsx
+
+const tahoe_peaks = [
+    {name: "freel", elevation: 10891},
+    {name: "monument", elevation: 10067},
+    {name: "pyramid", elevation: 9983},
+    {name: "tallac", elevation: 90735},
+];
+
+function List({data, renderItem, renderEmpty}) {
+    return !data.length ? (
+        renderEmpty
+    ) : (
+        <ul>
+            {data.map((item) => (
+                <li key={item.name}>{renderItem(item)}</li>
+            ))}
+        </ul>
+    );
+}
+
+function App() {
+    return (
+        <List
+            data={tahoe_peaks}
+            renderEmpty={<p>this list is empty</p>}
+            renderItem={(item) => (
+                <>
+                    {item.name} - {item.elevation} feet
+                </>
+            )}
+        />
+    );
+}
+```
 
 
 ---
