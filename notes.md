@@ -1069,7 +1069,49 @@ function App() {
 ---
 ## 7. REACT ROUTER
 ### INSTALLING REACT ROUTER V6
-#### 
+#### moving from page to page
+* with `react` & a single-page application, this is component to component
+* `react router` allows us to seamlessly move from page to page by displaying different components
+* installing `react router` v.6
+    * move to the app root
+    * `npm install react-router-dom@6`
+```bash
+cd react-app
+npm i react-router-dom@6
+```
+
+* create some basic functions to return different parts of the website
+* next, we'll configure the router to navigate to those pages
+
+```jsx
+function Home() {
+    return (
+        <div>
+            <h1>my website</h1>
+        </div>
+    );
+}
+
+function About() {
+    return (
+        <div>
+            <h1>about</h1>
+        </div>
+    );
+}
+
+function Contact() {
+    return (
+        <div>
+            <h1>contact</h1>
+        </div>
+    );
+}
+
+function App() {
+    return <Home />;
+}
+```
 
 
 ### CONFIGURING THE ROUTER
