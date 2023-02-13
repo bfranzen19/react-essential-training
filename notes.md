@@ -1069,19 +1069,242 @@ function App() {
 ---
 ## 7. REACT ROUTER
 ### INSTALLING REACT ROUTER V6
-#### 
+#### moving from page to page
+* with `react` & a single-page application, this is component to component
+* `react router` allows us to seamlessly move from page to page by displaying different components
+* installing `react router` v.6
+    * move to the app root
+    * `npm install react-router-dom@6`
+```bash
+cd react-app
+npm i react-router-dom@6
+```
+
+* create some basic functions to return different parts of the website
+* next, we'll configure the router to navigate to those pages
+
+```jsx
+function Home() {
+    return (
+        <div>
+            <h1>my website</h1>
+        </div>
+    );
+}
+
+function About() {
+    return (
+        <div>
+            <h1>about</h1>
+        </div>
+    );
+}
+
+function Contact() {
+    return (
+        <div>
+            <h1>contact</h1>
+        </div>
+    );
+}
+
+function App() {
+    return <Home />;
+}
+```
 
 
 ### CONFIGURING THE ROUTER
-#### 
+#### `index.js`, import and configure routes
+```jsx
+// index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import {App, About, Contact} from "./App";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+    <BrowserRouter>
+        <Routes>
+            <Route path='/' element={<App />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/contact' element={<Contact />} />
+        </Routes>
+    </BrowserRouter>
+);
+```
+
+#### alter `App.js` to use and correctly export functions
+```jsx
+function Home() {
+    return (
+        <div>
+            <h1>my website</h1>
+        </div>
+    );
+}
+
+export function About() {
+    return (
+        <div>
+            <h1>about</h1>
+        </div>
+    );
+}
+
+export function Contact() {
+    return (
+        <div>
+            <h1>contact</h1>
+        </div>
+    );
+}
+
+export function App() {
+    return <Home />;
+}
+```
 
 ### INCORPORATING THE LINK COMPONENT
-#### 
+#### using `Link`
+* allows navigation to other pages 
+```jsx
+import {Link} from "react-router-dom";
+
+function Home() {
+    return (
+        <div>
+            <nav>
+                <Link to='/'>Home</Link>
+                <Link to='/about'>About</Link>
+                <Link to='/contact'>Contact</Link>
+            </nav>
+            <h1>my website</h1>
+        </div>
+    );
+}
+
+export function About() {
+    return (
+        <div>
+            <nav>
+                <Link to='/'>Home</Link>
+                <Link to='/about'>About</Link>
+                <Link to='/contact'>Contact</Link>
+            </nav>
+            <h1>about</h1>
+        </div>
+    );
+}
+
+export function Contact() {
+    return (
+        <div>
+            <nav>
+                <Link to='/'>Home</Link>
+                <Link to='/about'>About</Link>
+                <Link to='/contact'>Contact</Link>
+            </nav>
+            <h1>contact</h1>
+        </div>
+    );
+}
+
+export function App() {
+    return <Home />;
+}
+```
 
 
 ### NESTING LINKS WITH REACT ROUTER V6
-#### 
+#### nesting routes in `index.js`
+* create a closing tag for `</Route>`
+* create a new `<Route/>` in that tag
+    * `element={<History/>}` just like the others
+    * `path="history"` with no `/`
+* in `App.js`, import `Outlet` from `"react-router-dom"`
+* `Outlet` is like a little container for a component
+* use the `<Outlet/>` component on the parent page
+* navigating to `/about/history` will display the `<History/>` component
+* need ot have route configuration created, define all of the paths, then create the element property to display the correct component at the correct time.
+
+```jsx
+// index.js
+import {App, About, History, Contact} from "./App";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+    <BrowserRouter>
+        <Routes>
+            <Route path='/' element={<App />} />
+            <Route path='/about' element={<About />}>
+                <Route path='history' element={<History />} />
+            </Route>
+            <Route path='/contact' element={<Contact />} />
+        </Routes>
+    </BrowserRouter>
+);
+```
+
+```jsx
+// App.js
+import {Link, Outlet} from "react-router-dom";
+
+function Home() {
+    return (
+        <div>
+            <nav>
+                <Link to='/'>Home</Link>
+                <Link to='/about'>About</Link>
+                <Link to='/contact'>Contact</Link>
+            </nav>
+            <h1>my website</h1>
+        </div>
+    );
+}
+
+export function About() {
+    return (
+        <div>
+            <nav>
+                <Link to='/'>Home</Link>
+                <Link to='/about'>About</Link>
+                <Link to='/contact'>Contact</Link>
+            </nav>
+            <h1>about</h1>
+            <Outlet />
+        </div>
+    );
+}
+
+export function History() {
+    return (
+        <div>
+            <h1>History</h1>
+        </div>
+    );
+}
+
+export function Contact() {
+    return (
+        <div>
+            <nav>
+                <Link to='/'>Home</Link>
+                <Link to='/about'>About</Link>
+                <Link to='/contact'>Contact</Link>
+            </nav>
+            <h1>contact</h1>
+        </div>
+    );
+}
+
+export function App() {
+    return <Home />;
+}
+```
 
 
 
