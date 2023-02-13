@@ -1319,7 +1319,27 @@ export function App() {
 
 
 ### TESTING SMALL FUNCTIONS WITH JEST
-#### 
+#### testing example
+* create `functions.js` and `functions.test.js` files in `src/`
+* `functions.js` is the file with the actual code and `functions.test.js` is the tests that we would want to run with `npm run test`
+* `create-react-app` already has `jest` configured
+    * [jest docs](https://jestjs.io/docs/getting-started)
+
+```javascript
+// functions.test.js
+import {timesTwo} from "./functions";
+
+test("multiplies by 2", () => {
+    expect(timesTwo(4)).toBe(8);
+});
+```
+
+```javascript
+// functions.js
+export function timesTwo(num) {
+    return num * 2;
+}
+```
 
 
 ### INTRODUCING REACT TESTING LIBRARY
