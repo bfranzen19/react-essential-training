@@ -1115,8 +1115,57 @@ function App() {
 
 
 ### CONFIGURING THE ROUTER
-#### 
+#### `index.js`, import and configure routes
+```jsx
+// index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import {App, About, Contact} from "./App";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+    <BrowserRouter>
+        <Routes>
+            <Route path='/' element={<App />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/contact' element={<Contact />} />
+        </Routes>
+    </BrowserRouter>
+);
+```
+
+#### alter `App.js` to use and correctly export functions
+```jsx
+function Home() {
+    return (
+        <div>
+            <h1>my website</h1>
+        </div>
+    );
+}
+
+export function About() {
+    return (
+        <div>
+            <h1>about</h1>
+        </div>
+    );
+}
+
+export function Contact() {
+    return (
+        <div>
+            <h1>contact</h1>
+        </div>
+    );
+}
+
+export function App() {
+    return <Home />;
+}
+```
 
 ### INCORPORATING THE LINK COMPONENT
 #### 
