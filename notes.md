@@ -1417,4 +1417,13 @@ export function Checkbox() {
 
 
 ### DEPLOYING TO NETLIFY
-#### 
+#### [`netlify`](https://www.netlify.com/)
+* free tool to deploy a `react` app quickly
+* can customize with a custom domain, `HTTPS` support, etc
+* add a new site (can also inport an existing project from github)
+* deploy manually
+    * will need the `build` of the project
+    * to `build`, run `npm run build`
+        * optimizes for production and has everything ready to go
+        * will generate the `build/` folder
+    * drag and drop the `build` folder and it deploys
