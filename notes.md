@@ -1311,7 +1311,11 @@ export function App() {
 ---
 ## 8. REACT TESTING & DEPLOYMENT
 ### USING `create-react-app` AS A TESTING PLATFORM
-#### 
+#### `npm run test` to run tests
+* built in to `create-react-app`
+* `npm run test` will run all tests in the app
+    * there is 1 test in `App.test.js`
+    * will run anything with the `.test.js` in the file name
 
 
 ### TESTING SMALL FUNCTIONS WITH JEST
