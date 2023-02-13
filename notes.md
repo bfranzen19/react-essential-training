@@ -1372,7 +1372,48 @@ test("renders an h1", () => {
 
 
 ### TESTING EVENTS WITH REACT TESTING LIBRARY
-#### 
+#### event testing
+* create a new component `Checkbox.js` and associated test file `Checkbox.test.js`
+* have to associate the `<label>` with the `<input>`
+    * the `<label>` needs `htmlFor='checked'` 
+    * `<input>` needs `id='checked'`
+
+```javascript
+// Checkbox.test.js
+import {fireEvent, render} from "@testing-library/react";
+import {Checkbox} from "./Checkbox";
+
+test("selecting checkbox should change value to true", () => {
+    const {getByLabelText} = render(<Checkbox />);
+    const checkbox = getByLabelText(/not checked/i); // regex is not case sensitive
+    fireEvent.click(checkbox); // automates the process of firing an event on the checkbox
+
+    expect(checkbox.checked).toEqual(true);
+});
+```
+
+```javascript
+// Checkbox.js
+import {useReducer} from "react";
+
+export function Checkbox() {
+    const [checked, setChecked] = useReducer((checked) => !checked, false);
+
+    return (
+        <>
+            <label htmlFor='checked'>
+                {checked ? "checked" : "not checked"}
+            </label>
+            <input
+                id='checked'
+                type='checkbox'
+                value={checked}
+                onChange={setChecked}
+            ></input>
+        </>
+    );
+}
+```
 
 
 ### DEPLOYING TO NETLIFY
