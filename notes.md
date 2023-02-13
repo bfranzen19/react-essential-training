@@ -1343,7 +1343,32 @@ export function timesTwo(num) {
 
 
 ### INTRODUCING REACT TESTING LIBRARY
-#### 
+#### react testing library
+* built in to `create-react-app`
+* example: create `star.js` and `star.test.js`
+* can use test utilities to render this component for us even though it's not rendered anywhere else
+* `react testing library` query - a way of selecting a particular element based on some sort of a property
+* can rerun all tests by hitting `a` in the terminal
+
+```javascript
+// star.js
+export function Star() {
+    return <h1>cool star</h1>;
+}
+```
+
+```javascript
+// star.test.js
+import {render} from "@testing-library/react";
+import {Star} from "./star";    // import the component
+
+test("renders an h1", () => {
+    const {getByText} = render(<Star />); // selects the render of the star
+    const h1 = getByText(/cool star/); // use getByText to look for the text
+
+    expect(h1).toHaveTextContent("cool star"); // expect statement
+});
+```
 
 
 ### TESTING EVENTS WITH REACT TESTING LIBRARY
