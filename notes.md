@@ -1311,20 +1311,119 @@ export function App() {
 ---
 ## 8. REACT TESTING & DEPLOYMENT
 ### USING `create-react-app` AS A TESTING PLATFORM
-#### 
+#### `npm run test` to run tests
+* built in to `create-react-app`
+* `npm run test` will run all tests in the app
+    * there is 1 test in `App.test.js`
+    * will run anything with the `.test.js` in the file name
 
 
 ### TESTING SMALL FUNCTIONS WITH JEST
-#### 
+#### testing example
+* create `functions.js` and `functions.test.js` files in `src/`
+* `functions.js` is the file with the actual code and `functions.test.js` is the tests that we would want to run with `npm run test`
+* `create-react-app` already has `jest` configured
+    * [jest docs](https://jestjs.io/docs/getting-started)
+
+```javascript
+// functions.test.js
+import {timesTwo} from "./functions";
+
+test("multiplies by 2", () => {
+    expect(timesTwo(4)).toBe(8);
+});
+```
+
+```javascript
+// functions.js
+export function timesTwo(num) {
+    return num * 2;
+}
+```
 
 
 ### INTRODUCING REACT TESTING LIBRARY
-#### 
+#### react testing library
+* built in to `create-react-app`
+* example: create `star.js` and `star.test.js`
+* can use test utilities to render this component for us even though it's not rendered anywhere else
+* `react testing library` query - a way of selecting a particular element based on some sort of a property
+* can rerun all tests by hitting `a` in the terminal
+
+```javascript
+// star.js
+export function Star() {
+    return <h1>cool star</h1>;
+}
+```
+
+```javascript
+// star.test.js
+import {render} from "@testing-library/react";
+import {Star} from "./star";    // import the component
+
+test("renders an h1", () => {
+    const {getByText} = render(<Star />); // selects the render of the star
+    const h1 = getByText(/cool star/); // use getByText to look for the text
+
+    expect(h1).toHaveTextContent("cool star"); // expect statement
+});
+```
 
 
 ### TESTING EVENTS WITH REACT TESTING LIBRARY
-#### 
+#### event testing
+* create a new component `Checkbox.js` and associated test file `Checkbox.test.js`
+* have to associate the `<label>` with the `<input>`
+    * the `<label>` needs `htmlFor='checked'` 
+    * `<input>` needs `id='checked'`
+
+```javascript
+// Checkbox.test.js
+import {fireEvent, render} from "@testing-library/react";
+import {Checkbox} from "./Checkbox";
+
+test("selecting checkbox should change value to true", () => {
+    const {getByLabelText} = render(<Checkbox />);
+    const checkbox = getByLabelText(/not checked/i); // regex is not case sensitive
+    fireEvent.click(checkbox); // automates the process of firing an event on the checkbox
+
+    expect(checkbox.checked).toEqual(true);
+});
+```
+
+```javascript
+// Checkbox.js
+import {useReducer} from "react";
+
+export function Checkbox() {
+    const [checked, setChecked] = useReducer((checked) => !checked, false);
+
+    return (
+        <>
+            <label htmlFor='checked'>
+                {checked ? "checked" : "not checked"}
+            </label>
+            <input
+                id='checked'
+                type='checkbox'
+                value={checked}
+                onChange={setChecked}
+            ></input>
+        </>
+    );
+}
+```
 
 
 ### DEPLOYING TO NETLIFY
-#### 
+#### [`netlify`](https://www.netlify.com/)
+* free tool to deploy a `react` app quickly
+* can customize with a custom domain, `HTTPS` support, etc
+* add a new site (can also inport an existing project from github)
+* deploy manually
+    * will need the `build` of the project
+    * to `build`, run `npm run build`
+        * optimizes for production and has everything ready to go
+        * will generate the `build/` folder
+    * drag and drop the `build` folder and it deploys
